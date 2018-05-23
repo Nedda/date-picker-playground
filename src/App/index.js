@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
 import './styles.css';
 import * as R from 'ramda';
 
 import Calendar from 'react-calendar';
 import DatePicker from 'react-date-picker';
 import RangeCalendar from 'rc-calendar/lib/RangeCalendar';
+
 import { DateRangePicker } from 'react-date-range';
+import { defaultStaticRanges, createStaticRanges } from 'react-date-range/src/defaultRanges.js';
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -92,28 +93,30 @@ class App extends Component {
   }
 
   render() {
+      const newStaticRanges = R.flatten(R.append(
+          createStaticRanges([{
+              label: 'This Year',
+              range: () => ({
+                startDate: new Date(2018, 0, 1),
+                endDate: new Date(2018, 11, 1),
+              })
+          }]), defaultStaticRanges))
+      console.log(newStaticRanges);
     return (
       <div className="App">
-        <select value={this.state.value}
-          onChange={e => this.setState({value: e.target.value})}
-          >
-          <option value={1} key={1}> one </option>
-          <option value={2} key={2}> two </option>
-          <option value={3} key={3}> three </option>
-          <option value={4} key={4}> four </option>
-        </select>
         <DateRangePicker 
-          months={2}
-          direction='horizontal'
+          months={1}
           className={'styledDate'}
           scroll={{enabled: true}}
           onChange={(x) => this.updateDates(x) }
           ranges={ this.state.dates }
+          dangerouslySetInnerHTML={<div>something</div>}
+          staticRanges={newStaticRanges}
         />
         <div onClick={this.clearDateRange}>select Only One</div>
         <div onClick={this.selectYear}>select Two</div>
         { /* 
-             <RangeCalendar 
+         <RangeCalendar 
              showClear
              />
           <Calendar 
