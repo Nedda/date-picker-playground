@@ -93,42 +93,44 @@ class App extends Component {
   }
 
   render() {
-      const newStaticRanges = R.flatten(R.append(
-          createStaticRanges([{
-              label: 'This Year',
-              range: () => ({
-                startDate: new Date(2018, 0, 1),
-                endDate: new Date(2018, 11, 1),
-              })
-          }]), defaultStaticRanges))
-      console.log(newStaticRanges);
-    return (
-      <div className="App">
-        <DateRangePicker 
-          months={1}
-          className={'styledDate'}
-          scroll={{enabled: true}}
-          onChange={(x) => this.updateDates(x) }
-          ranges={ this.state.dates }
-          dangerouslySetInnerHTML={<div>something</div>}
-          staticRanges={newStaticRanges}
-        />
-        <div onClick={this.clearDateRange}>select Only One</div>
-        <div onClick={this.selectYear}>select Two</div>
-        { /* 
-         <RangeCalendar 
-             showClear
-             />
-          <Calendar 
-            activeStartDate={new Date()}
-            value={this.state.date}
-            selectRange
-            onChange={ (x) => this.setState({ date: x }) }
+    const newStaticRanges = R.flatten(R.append(
+      createStaticRanges([{
+        label: 'This Year',
+        range: () => ({
+          startDate: new Date(2018, 0, 1),
+          endDate: new Date(2018, 11, 1),
+        })
+      }]), defaultStaticRanges))
+
+      return (
+        <div className="App">
+          <div>
+            <span onClick={this.clearDateRange}>select Only One</span>
+            <span onClick={this.selectYear}>select Two</span>
+          </div>
+          <DateRangePicker 
+            months={1}
+            className={'styledDate'}
+            scroll={{enabled: true}}
+            onChange={(x) => this.updateDates(x) }
+            ranges={ this.state.dates }
+            dangerouslySetInnerHTML={<div>something</div>}
+            staticRanges={newStaticRanges}
           />
-          <div onClick={this.selectYear}>year</div>
-          */ }
-        </div>
-    );
+          { /* 
+               <RangeCalendar 
+               showClear
+               />
+            <Calendar 
+              activeStartDate={new Date()}
+              value={this.state.date}
+              selectRange
+              onChange={ (x) => this.setState({ date: x }) }
+            />
+            <div onClick={this.selectYear}>year</div>
+            */ }
+          </div>
+      );
   }
 }
 
